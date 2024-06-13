@@ -1,0 +1,8 @@
+google-cloud-storage
+sqlalchemy
+pandas
+dash
+plotly
+python-dotenv
+psycopg2
+schedule
