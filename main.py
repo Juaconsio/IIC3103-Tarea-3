@@ -1,13 +1,12 @@
 import os
 import schedule
 import time
-import threading
 from sqlalchemy.orm import sessionmaker
 from db import engine, Product, Category, Order, Customer, Seller
 from data_cleaning import clean_data_products, clean_data_orders
-from dashboard import update_graph
 from download_files import download_blobs
-from dashboard import app
+from threading import Thread
+import schedule
 
 # Crear una sesión de SQLAlchemy
 Session = sessionmaker(bind=engine)
@@ -53,21 +52,11 @@ def job():
             file_path = os.path.join('tmp', file_name)
             clean_data_orders(file_path)
 
-    # Ejecutar dashboard
-    print("Actualizando dashboard")
+
 
 def run_schedule():
+    schedule.every(2).minutes.do(job)
     while True:
         schedule.run_pending()
         time.sleep(1)
 
-# Programar el trabajo para que se ejecute cada 2 minutos
-schedule.every(24).hours.do(job)
-
-# Iniciar el hilo de `schedule`
-schedule_thread = threading.Thread(target=run_schedule)
-schedule_thread.start()
-
-# Iniciar el servidor Dash
-if __name__ == '__main__':
-    app.run_server(debug=True)

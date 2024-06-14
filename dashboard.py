@@ -5,8 +5,9 @@ from dash.dependencies import Input, Output
 import pandas as pd
 from db import engine, Product, Category, Order, Customer, Seller
 from sqlalchemy.orm import sessionmaker
-from sqlalchemy import func, and_
+from sqlalchemy import func
 import plotly.graph_objects as go
+from main import run_schedule
 
 ## Consultas 
 Session = sessionmaker(bind=engine)
@@ -136,6 +137,9 @@ df_weight_products = pd.DataFrame(weight_products, columns=['name', 'average_wei
 df_timestamp = pd.DataFrame(timestamp, columns=['timestamp', 'total_orders'])
 
 app = dash.Dash(__name__)
+server = app.server
+# Ejecutar el schedule
+run_schedule()
 
 # Definir el layout de la app
 app.layout = html.Div([
@@ -345,5 +349,3 @@ def update_graph(_, __, ___, ____, _____, ______, _______, ________, _________, 
       fig_timestamp
     )
 # Ejecutar la app
-if __name__ == '__main__':
-    app.run_server(debug=True)
