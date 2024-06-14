@@ -5,6 +5,7 @@ from sqlalchemy.orm import sessionmaker
 
 
 def clean_data_orders(file_path):
+    print(f"File: {file_path}")
     df = pd.read_csv(file_path, sep=';')
     # Eliminar filas con valores nulos
     df.dropna(inplace=True)
@@ -32,7 +33,6 @@ def clean_data_orders(file_path):
     create_orders(df)
 
 def create_orders(df):
-    print(df)
     Session = sessionmaker(bind=engine)
     session = Session()
     for index, row in df.iterrows():
@@ -88,9 +88,7 @@ def clean_data_products(file_path):
     print(f"File: {file_path}")
     with open(file_path, 'r') as file:
         data = json.load(file)
-    for products in data:
-    
-        # print(json.dumps(products, indent=4))
+    for products in data:    
         if products['categories']:
             catergory = category_builder(products['categories'], session)
         price_min, price_max = check_price_range(products['price_range'])
