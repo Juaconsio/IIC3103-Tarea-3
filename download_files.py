@@ -1,4 +1,5 @@
 from google.cloud import storage
+import os
 
 def download_blob(blob, destination_file_name: str) -> None:
     """ Descarga el contenido del blob a un archivo en el sistema local."""
@@ -7,8 +8,13 @@ def download_blob(blob, destination_file_name: str) -> None:
 
 def list_blobs():
     """ Descarga un los names de los blobs en el bucket 2024-1-tarea-3 """
+    gcloud_credentials = os.getenv('GCLOUD_CREDENTIALS')
 
-    storage_client = storage.Client.from_service_account_json('./taller-integracion-310700-41f361102b8b.json')
+    if gcloud_credentials:
+        # Crear un archivo temporal para las credenciales
+        with open('gcloud-credentials-temp.json', 'w') as temp_file:
+            temp_file.write(gcloud_credentials)
+    storage_client = storage.Client.from_service_account_json('./gcloud-credentials-temp.json')
     blobs = storage_client.list_blobs('2024-1-tarea-3')
     return blobs
 
