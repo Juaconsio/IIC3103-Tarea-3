@@ -349,3 +349,6 @@ def update_graph(_, __, ___, ____, _____, ______, _______, ________, _________, 
       fig_timestamp
     )
 # Ejecutar la app
+if __name__ == '__main__':
+    port = int(os.environ.get('PORT', 8080))
+    app.run_server(debug=True, host='0.0.0.0', port=port)
