@@ -331,13 +331,7 @@ def update_graph(_, __, ___, ____, _____, ______, _______, ________, _________, 
       yaxis_title="Cantidad de órdenes",
       margin=dict(l=50, r=50, t=50, b=50)  # Ajuste de márgenes
     )
-
-
-
-
-
-
-
+    
     return (
       fig_products,
       fig_categories, 
