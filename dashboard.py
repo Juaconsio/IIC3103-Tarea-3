@@ -9,7 +9,9 @@ from sqlalchemy import func
 import plotly.graph_objects as go
 from main import run_schedule
 from threading import Thread
+import os
 
+PORT = os.getenv('PORT', 8080)
 
 ## Consultas 
 Session = sessionmaker(bind=engine)
@@ -354,4 +356,4 @@ def update_graph(_, __, ___, ____, _____, ______, _______, ________, _________, 
 # Ejecutar la app
 if __name__ == '__main__':
     print('Running app...')
-    app.run_server(debug=True)
+    app.run_server(debug=True, port=PORT, host='0.0.0.0')
