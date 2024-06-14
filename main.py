@@ -18,13 +18,13 @@ def job():
 
     # Eliminar todas las tuplas de las tablas
     print("Eliminando tuplas de las tablas")
-    session.query(Order).delete()
+    session.query(Order).delete(synchronize_session=False)
     session.commit()
 
-    session.query(Product).delete()
-    session.query(Category).delete()
-    session.query(Customer).delete()
-    session.query(Seller).delete()
+    session.query(Product).delete(synchronize_session=False)
+    session.query(Category).delete(synchronize_session=False)
+    session.query(Customer).delete(synchronize_session=False)
+    session.query(Seller).delete(synchronize_session=False)
     session.commit()
 
     # # Descargar los archivos
@@ -54,8 +54,8 @@ def job():
 
 
 def run_schedule():
-    schedule.every(1).minutes.do(job)
-    # schedule.every().day.at("00:00").do(job)
+    job()
+    schedule.every(24).hours.do(job)
     while True:
         schedule.run_pending()
         time.sleep(1)
