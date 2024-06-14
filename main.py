@@ -5,7 +5,6 @@ from sqlalchemy.orm import sessionmaker
 from db import engine, Product, Category, Order, Customer, Seller
 from data_cleaning import clean_data_products, clean_data_orders
 from download_files import download_blobs
-from threading import Thread
 import schedule
 
 # Crear una sesión de SQLAlchemy
@@ -55,8 +54,8 @@ def job():
 
 
 def run_schedule():
-    schedule.every(2).minutes.do(job)
+    schedule.every(1).minutes.do(job)
+    # schedule.every().day.at("00:00").do(job)
     while True:
         schedule.run_pending()
         time.sleep(1)
-

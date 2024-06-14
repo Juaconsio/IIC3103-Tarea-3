@@ -8,6 +8,8 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy import func
 import plotly.graph_objects as go
 from main import run_schedule
+from threading import Thread
+
 
 ## Consultas 
 Session = sessionmaker(bind=engine)
@@ -138,8 +140,8 @@ df_timestamp = pd.DataFrame(timestamp, columns=['timestamp', 'total_orders'])
 
 app = dash.Dash(__name__)
 server = app.server
-# Ejecutar el schedule
-run_schedule()
+thread = Thread(target=run_schedule)
+thread.start()
 
 # Definir el layout de la app
 app.layout = html.Div([
@@ -182,6 +184,7 @@ app.layout = html.Div([
       Input('line-chart-timestamp', 'id')
      ]
 )
+
 def update_graph(_, __, ___, ____, _____, ______, _______, ________, _________, __________):
     # Gráfico de barras horizontales para productos
     fig_products = go.Figure()
@@ -350,5 +353,5 @@ def update_graph(_, __, ___, ____, _____, ______, _______, ________, _________, 
     )
 # Ejecutar la app
 if __name__ == '__main__':
-    port = int(os.environ.get('PORT', 8080))
-    app.run_server(debug=True, host='0.0.0.0', port=port)
+    print('Running app...')
+    app.run_server(debug=True)
