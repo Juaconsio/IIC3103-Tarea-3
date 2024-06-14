@@ -54,8 +54,9 @@ def job():
 
 
 def run_schedule():
+    time.sleep(180)
     job()
-    schedule.every(24).hours.do(job)
+    schedule.every(12).hours.do(job)
     while True:
         schedule.run_pending()
         time.sleep(1)
